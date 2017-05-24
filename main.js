@@ -1,23 +1,18 @@
 
 class Fighter {
-		constructor (name = 'duke', power = 15, health = 1000) {
+		constructor (name = 'batman', power = 15, health = 1000) {
 			this.name = name;
 			this.power = power;
 			this.health = health;
-			console.log("new created");
 		}
 		setDamage(damage){
-			console.log("start damage");
 			this.health = this.health - damage;
-			console.log("end damage");
 			return console.log(` ${this.name} health: ${this.health}`);
 		}
 		hit(enemy, point=1) {
-			console.log("start hit");
 			let damage = point * this.power;
-			console.log(damage);
+			console.log(`damage to ${enemy.name}: ${damage}`);
 			enemy.setDamage(damage);
-			console.log("end hit");
 		}
 	}
 
@@ -28,21 +23,25 @@ class Fighter {
 	}
 
 	 let fight = (fighter, improvedFighter, ...point) => {
-		
 		for (i=0; i < point.length; i++) {
-			console.log('index' + i);
-			if (i % 2 == 0) {
-				if (fighter.health > 0) { 
-				   fighter.hit(improvedFighter, point[i]);}
-			   else { return console.log(`${fighter.name} is dead`)} }
-			else {
-				if (improvedFighter.health > 0) {
-				   improvedFighter.doubleHit(fighter, point[i]);}
-				else { return console.log(`${improvedFighter.name} is dead`)} 
+			if (i % 2 == 0 && fighter.health > 0)	{ 
+					console.log(`hit #${i+1} by ${fighter.name}`);
+					fighter.hit(improvedFighter, point[i]);
+
+				}
+			if (i % 2 == 0 && fighter.health <= 0) {
+				return console.log(`${fighter.name} is dead`);
+			}
+			if (i % 2 !== 0 && improvedFighter.health > 0) {
+				console.log(`hit #${i+1} by ${improvedFighter.name}`);
+				improvedFighter.doubleHit(fighter, point[i]);
+			} 
+			if (i % 2 !== 0 && improvedFighter.health <= 0) {
+				return console.log(`${improvedFighter.name} is dead`);
 			}
 		}
 	}
 
 	let fighter = new Fighter ();
-	let improvedFighter = new ImprovedFighter ('zorro');
-	fight(fighter, improvedFighter, 1, 2, 3);
+	let improvedFighter = new ImprovedFighter ('superman', 25, 1000);
+	fight(fighter, improvedFighter, 70, 7, 7, 73);
